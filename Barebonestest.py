@@ -15,10 +15,11 @@ def browse_file():
     global filename
     filename = filedialog.askopenfilename(initialdir = "/", title = "Select a file",
                                           filetypes= (("Audio files", "*.wav"),("All files", "*.*")))
+    print(filename)
 
 def save_file():
     global filesave
-    filesave = filedialog.asksaveasfilename(initialdir = "/", title = "Save your text file",
+    filesave = filedialog.asksaveasfilename(initialdir = "/home/Documents", title = "Save your text file",
                                           filetypes=(("Text files", "*.txt"),("All files", "*.")))
 
 
