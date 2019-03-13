@@ -22,12 +22,14 @@ beat_list = list(enumerate(beat_times))
 
 # for count, item in beat_list:
 #     print(count, round(item, 6))
+offset = input("Enter offset: ")
+
 
 with open("testfile.txt", "w+") as file:
     file.write("VERSION 2\n")
     file.write("BPM " + str(tempo) + '\n')
-    file.write("PAGE_SHIFT " + "12.5\n")
-    file.write("PAGE_SIZE " + "12.5\n")
+    file.write("PAGE_SHIFT " + offset + '\n')
+    file.write("PAGE_SIZE " + 240/float(offset) + '\n')
     for count, item in beat_list:
         file.write("NOTE\t" + str(count) + '\t' + str(round(item, 6)) + '\t' + str(x_coords) + '\t' + "0.000000" + '\n')
 
