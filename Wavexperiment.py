@@ -1,4 +1,5 @@
 import wave
+import os as os
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
@@ -18,6 +19,8 @@ plt.plot(data)
 plt.xlabel("Time")
 plt.ylabel("Amplitude")
 plt.title("Test title")
+
+print("OS: " + os.environ['PATH'])
 
 
 print("All params: " + str(allparams))
