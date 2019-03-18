@@ -9,15 +9,11 @@ Created on Wed Mar 13 23:08:30 2019
 import librosa
 import random
 
-# Arrays created in case enumerator solution doesn't work properly.
-index = []
-y_timings = []
-
 
 # Load the file and separate into harmonics
 y, sr = librosa.load(r"S:/Charts/Rigid/Song files/easy/MP3 files/SS2.mp3")
 y_harmonic = librosa.effects.harmonic(y)
-
+y_percussive = librosa.effects.percussive(y, margin=2.0)
 
 BPM = input("Enter BPM: ")
 
@@ -28,6 +24,11 @@ tempo, beats = librosa.beat.beat_track(y=y, sr=sr, start_bpm=int(BPM))
 #Onset tracker
 onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
 onset_times = librosa.frames_to_time(onset_frames, sr=sr)
+
+#Convert percussive beat frames to seconds
+beat_frames_percussive = librosa.beat.beat_track(y=y_percussive, sr=sr)
+beat_times_percussive = librosa.frames_to_time(beat_frames_percussive)
+percussive_list = list(enumerate(beat_times_percussive))
 
 #Convert beattracker frames to seconds
 beat_times = librosa.frames_to_time(beats, sr=sr)
@@ -46,7 +47,7 @@ def CalculateBPM():
 
 
 def CalculateShift():
-    return round(beat_times[0], 6)
+    return round(percussive_list[0], 6)
 
 
 def RandomXGenerator():
@@ -64,7 +65,7 @@ with open("testfile.txt", "w+") as file:
     file.write("BPM " + str(CalculateBPM()) + '\n')
     file.write("PAGE_SHIFT " + str(CalculateShift()) + '\n')
     file.write("PAGE_SIZE " + str(CalculatePageSize()) + '\n')
-    for count, item in beat_list:
+    for count, item in percussive_list:
         file.write("NOTE\t" + str(count) + '\t' + str(round(item, 6)) + '\t' + str(
             RandomXGenerator()) + '\t' + "0.000000" + '\n')
 
