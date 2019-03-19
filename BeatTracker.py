@@ -56,7 +56,14 @@ def RandomXGenerator():
 def CalculatePageSize():
     return 240 / float(BPM)
 
-# def DetermineHolds():
+
+def DetermineHolds(item):
+    matches = any(item in beat_times for item in beat_times_harmonic)
+    if matches:
+        return round(random.uniform(0.0, 0.5), 6)
+    else:
+        return float(0.0)
+
 
 
 with open("ss2chart.txt", "w+") as file:
@@ -66,6 +73,6 @@ with open("ss2chart.txt", "w+") as file:
     file.write("PAGE_SIZE " + str(CalculatePageSize()) + '\n')
     for count, item in beat_list:
         file.write("NOTE\t" + str(count) + '\t' + str(round(item, 6)) + '\t' + str(
-            RandomXGenerator()) + '\t' + "0.000000" + '\n')
+            RandomXGenerator()) + '\t' + str(DetermineHolds(item)) + '\n')
 
     file.close()
