@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2c86a897-c815-4468-8d5c-b4c9d77cf8b5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Barebonestest.py" beforeDir="false" afterPath="$PROJECT_DIR$/Barebonestest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeatTracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/BeatTracker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wavexperiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Wavexperiment.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,12 +42,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Python Console" value="75" />
-          <entry key="py" value="5389" />
+          <entry key="py" value="5704" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="5464" />
+          <entry key="Python" value="5779" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -61,10 +58,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BeatTracker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="59" column="4" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="4" />
+            <state relative-caret-position="75">
+              <caret line="7" selection-start-line="7" selection-end-line="77" selection-end-column="16" />
               <folding>
-                <element signature="e#97#111#0" expanded="true" />
+                <element signature="e#96#110#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -370,10 +367,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BeatTracker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="59" column="4" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="4" />
+        <state relative-caret-position="75">
+          <caret line="7" selection-start-line="7" selection-end-line="77" selection-end-column="16" />
           <folding>
-            <element signature="e#97#111#0" expanded="true" />
+            <element signature="e#96#110#0" expanded="true" />
           </folding>
         </state>
       </provider>
