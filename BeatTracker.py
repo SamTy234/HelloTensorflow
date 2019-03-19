@@ -14,11 +14,11 @@ y, sr = librosa.load(r"S:/Charts/Rigid/Song files/easy/MP3 files/SS2.mp3")
 y_harmonic = librosa.effects.harmonic(y)
 y_percussive = librosa.effects.percussive(y)
 
-BPM = input("Enter BPM: ")
+estimated_bpm = input("Enter BPM: ")
 
 
 # Beat tracker
-tempo, beats = librosa.beat.beat_track(y=y, sr=sr, start_bpm=int(BPM))
+tempo, beats = librosa.beat.beat_track(y=y, sr=sr, start_bpm=int(estimated_bpm))
 
 #Onset tracker
 onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
@@ -42,7 +42,8 @@ beat_times_harmonic = librosa.frames_to_time(beat_frames_harmonic, sr=sr)
 
 
 def CalculateBPM():
-    return round((tempo * 2), 6)
+    bpm = round((tempo * 2), 6)
+    return bpm
 
 
 def CalculateShift():
@@ -54,7 +55,7 @@ def RandomXGenerator():
 
 
 def CalculatePageSize():
-    return 240 / float(BPM)
+    return round((240 / float(CalculateBPM())), 6)
 
 
 def DetermineHolds(item):
