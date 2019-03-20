@@ -41,39 +41,37 @@ beat_times_harmonic = librosa.frames_to_time(beat_frames_harmonic, sr=sr)
 #     print(count, round(item, 6))
 
 
-def CalculateBPM():
+def calculate_bpm():
     bpm = round((tempo * 2), 6)
     return bpm
 
 
-def CalculateShift():
+def calculate_shift():
     return round(beat_times_percussive[0], 6)
 
 
-def RandomXGenerator():
+def random_x_generator():
     return round(random.uniform(0.1, 0.9), 6)
 
 
-def CalculatePageSize():
-    return round((240 / float(CalculateBPM())), 6)
+def calculate_page_size():
+    return round((240 / float(calculate_bpm())), 6)
 
 
-def DetermineHolds(item):
-    matches = any(item in beat_times for item in beat_times_harmonic)
-    if matches:
+def determine_holds(item):
+    if item in beat_times_harmonic:
         return round(random.uniform(0.0, 0.5), 6)
     else:
-        return float(0.0)
-
+        return "0.000000"
 
 
 with open("ss2chart.txt", "w+") as file:
     file.write("VERSION 2\n")
-    file.write("BPM " + str(CalculateBPM()) + '\n')
-    file.write("PAGE_SHIFT " + str(CalculateShift()) + '\n')
-    file.write("PAGE_SIZE " + str(CalculatePageSize()) + '\n')
+    file.write("BPM " + str(calculate_bpm()) + '\n')
+    file.write("PAGE_SHIFT " + str(calculate_shift()) + '\n')
+    file.write("PAGE_SIZE " + str(calculate_page_size()) + '\n')
     for count, item in beat_list:
         file.write("NOTE\t" + str(count) + '\t' + str(round(item, 6)) + '\t' + str(
-            RandomXGenerator()) + '\t' + str(DetermineHolds(item)) + '\n')
+            random_x_generator()) + '\t' + str(determine_holds(item)) + '\n')
 
     file.close()
