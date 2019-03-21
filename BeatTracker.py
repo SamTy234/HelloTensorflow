@@ -7,7 +7,7 @@ Created on Wed Mar 13 23:08:30 2019
 
 import librosa
 import random
-
+import Barebonestest
 
 # Load the file and separate into harmonics
 y, sr = librosa.load(r"S:/Charts/Rigid/Song files/easy/MP3 files/SS2.mp3")
