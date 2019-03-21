@@ -31,7 +31,6 @@ def save_filename():
 
 def get_bpm():
     text = bpm_entry.get()
-    print(text)
     return text
 
 
@@ -59,7 +58,39 @@ def determine_holds(item):
         return "0.000000"
 
 
-def generate_text_file():
+def get_c1_file():
+    global tempo, beat_times_percussive, beat_times_harmonic
+    # Load the file and separate into harmonics/Percussives
+    y, sr = librosa.load(browse_file())
+    Label(root, text="File loaded successfully").grid(row=2, column=1)
+    Label(root, text="Separating Harmonics...").grid(row=3, column=1)
+
+    y_harmonic = librosa.effects.harmonic(y)
+    Label(root, text="Separating Percussives...").grid(row=4, column=1)
+
+    y_percussive = librosa.effects.percussive(y)
+    Label(root, text="Getting BPM...").grid(row=5, column=1)
+    estimated_bpm = get_bpm()
+    tempo, beats = librosa.beat.beat_track(y=y, sr=sr, start_bpm=int(estimated_bpm))
+
+    # Convert beat tracker frames to seconds
+    Label(root, text="Generating Beat times...").grid(row=6, column=1)
+    beat_times = librosa.frames_to_time(beats, sr=sr)
+    beat_list = list(enumerate(beat_times))
+
+    # Onset tracker
+    onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
+    onset_times = librosa.frames_to_time(onset_frames, sr=sr)
+
+    # Convert percussive beat frames to seconds
+    tempo, beat_frames_percussive = librosa.beat.beat_track(y=y_percussive, sr=sr)
+    beat_times_percussive = librosa.frames_to_time(beat_frames_percussive, sr=sr)
+    percussive_list = list(enumerate(beat_times_percussive))
+
+    # Convert beattracker harmonic
+    tempo, beat_frames_harmonic = librosa.beat.beat_track(y=y_harmonic, sr=sr)
+    beat_times_harmonic = librosa.frames_to_time(beat_frames_harmonic, sr=sr)
+    
     with open(save_filename(), "w+") as file:
         file.write("VERSION 2\n")
         file.write("BPM " + str(calculate_bpm()) + '\n')
@@ -69,66 +100,39 @@ def generate_text_file():
             file.write("NOTE\t" + str(count) + '\t' + str(round(item, 6)) + '\t' + str(
                 random_x_generator()) + '\t' + str(determine_holds(item)) + '\n')
 
+        print("Chart done!")
+
         file.close()
 
 
 root = Tk()
 menubar = Menu(root)
-root.config(menu=menubar)
 
+root.config(menu=menubar)
 root.geometry('350x350')
+
 root.title('C1 Generator')
 
 subMenu = Menu(menubar, tearoff=0)
-
 menubar.add_cascade(label="File", menu=subMenu)
 subMenu.add_command(label="Open", command=browse_file)
-subMenu.add_command(label="Exit", command=root.destroy)
 
+subMenu.add_command(label="Exit", command=root.destroy)
 bpm_label = Label(root, text="Estimated BPM:").grid(row=0, column=0)
 bpm_entry = Entry(root, bd=2)
-bpm_entry.grid(row=0, column=1)
 
+bpm_entry.grid(row=0, column=1)
 register_bpm_button = Button(root, text="Enter", command=lambda: get_bpm()).grid(row=0, column=2)
-output_text_button = Button(root, text="Get your C1 file", command=lambda: generate_text_file())
+output_text_button = Button(root, text="Get your C1 file", command=lambda: get_c1_file())
+
 output_text_button.grid(row=1, column=1)
 
 
-
-
-
-# Load the file and separate into harmonics/Percussives
-y, sr = librosa.load(browse_file())
-print("loaded file successfully")
-print("Separating into harmonics...")
-y_harmonic = librosa.effects.harmonic(y)
-print("Separating into percussives....")
-y_percussive = librosa.effects.percussive(y)
-
-print("Getting BPM....")
-
-estimated_bpm = get_bpm()
-
-tempo, beats = librosa.beat.beat_track(y=y, sr=sr, start_bpm=int(estimated_bpm))
-
-# Convert beat tracker frames to seconds
-beat_times = librosa.frames_to_time(beats, sr=sr)
-beat_list = list(enumerate(beat_times))
-
-# Onset tracker
-onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
-onset_times = librosa.frames_to_time(onset_frames, sr=sr)
-
-# Convert percussive beat frames to seconds
-tempo, beat_frames_percussive = librosa.beat.beat_track(y=y_percussive, sr=sr)
-beat_times_percussive = librosa.frames_to_time(beat_frames_percussive, sr=sr)
-percussive_list = list(enumerate(beat_times_percussive))
-
-# Convert beattracker harmonic
-tempo, beat_frames_harmonic = librosa.beat.beat_track(y=y_harmonic, sr=sr)
-beat_times_harmonic = librosa.frames_to_time(beat_frames_harmonic, sr=sr)
-
 root.mainloop()
+
+
+
+
 
 
 
