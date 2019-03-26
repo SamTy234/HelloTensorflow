@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Mar 21 02:02:42 2019
+
+@author: Sam Tyson Gasper
+"""
 
 import librosa
 import random
@@ -30,8 +36,13 @@ def save_filename():
 
 
 def get_bpm():
-    text = bpm_entry.get()
-    return text
+    bpm = bpm_entry.get()
+    string_display = "Your estimamated BPM is " + bpm
+    label = Label(root)
+    label["text"] = string_display
+    label.grid(row=2, column=1)
+    Label(root, text="Click the button above to get your File!").grid(row=3, column=1)
+    return bpm
 
 
 def calculate_bpm():
@@ -62,21 +73,27 @@ def get_c1_file():
     global tempo, beat_times_percussive, beat_times_harmonic
     # Load the file and separate into harmonics/Percussives
     y, sr = librosa.load(browse_file())
-    Label(root, text="File loaded successfully").grid(row=2, column=1)
-    Label(root, text="Separating Harmonics...").grid(row=3, column=1)
+    #Label(root, text="File loaded successfully").grid(row=2, column=1)
+    print("File loaded successfully")
+    #Label(root, text="Separating Harmonics...").grid(row=3, column=1)
+    print("Seperating Harmonic beats..")
 
     y_harmonic = librosa.effects.harmonic(y)
-    Label(root, text="Separating Percussives...").grid(row=4, column=1)
+    #Label(root, text="Separating Percussives...").grid(row=4, column=1)
+    print("Seperating percussives..")
 
     y_percussive = librosa.effects.percussive(y)
-    Label(root, text="Getting BPM...").grid(row=5, column=1)
+    #Label(root, text="Getting BPM...").grid(row=5, column=1)
+    print("Getting BPM...")
     estimated_bpm = get_bpm()
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr, start_bpm=int(estimated_bpm))
 
     # Convert beat tracker frames to seconds
-    Label(root, text="Generating Beat times...").grid(row=6, column=1)
+    #Label(root, text="Generating Beat times...").grid(row=6, column=1)
+    print("Generating Beat times...")
     beat_times = librosa.frames_to_time(beats, sr=sr)
     beat_list = list(enumerate(beat_times))
+    print("Beat times sucessfully converted to a list")
 
     # Onset tracker
     onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
@@ -109,7 +126,7 @@ root = Tk()
 menubar = Menu(root)
 
 root.config(menu=menubar)
-root.geometry('350x350')
+root.geometry('400x100')
 
 root.title('C1 Generator')
 
@@ -123,35 +140,10 @@ bpm_entry = Entry(root, bd=2)
 
 bpm_entry.grid(row=0, column=1)
 register_bpm_button = Button(root, text="Enter", command=lambda: get_bpm()).grid(row=0, column=2)
+
 output_text_button = Button(root, text="Get your C1 file", command=lambda: get_c1_file())
 
 output_text_button.grid(row=1, column=1)
 
 
 root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
