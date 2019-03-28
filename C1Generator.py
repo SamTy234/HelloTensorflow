@@ -1,7 +1,6 @@
-
+# -*- coding: utf-8 -*-
 """
 Created on Thu Mar 21 02:02:42 2019
-
 @author: Sam Tyson Gasper
 """
 import librosa
@@ -58,7 +57,7 @@ def calculate_bpm():
 
 
 def calculate_shift():
-    return round(onset_times[0], 6)
+    return round(beat_times[0], 6)
 
 
 def random_x_generator():
@@ -78,13 +77,13 @@ def determine_holds(item):
 
 def choose_between_auto_shift_or_user_shift():
     user_shift = get_shift()
-    if user_shift is not None:
+    if user_shift is not "":
         return user_shift
     else:
         return calculate_shift()
 
 def get_c1_file():
-    global tempo, beat_times_percussive, beat_times_harmonic, onset_times
+    global tempo, beat_times_percussive, beat_times_harmonic, onset_times, beat_times
     # Load the file and separate into harmonics/Percussives
     y, sr = librosa.load(browse_file())
     #Label(root, text="File loaded successfully").grid(row=2, column=1)
@@ -115,6 +114,7 @@ def get_c1_file():
     # Onset tracker
     onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
     onset_times = librosa.frames_to_time(onset_frames, sr=sr)
+    onset_list = list(enumerate(onset_times))
 
     # Convert percussive beat frames to seconds
     tempo, beat_frames_percussive = librosa.beat.beat_track(y=y_percussive, sr=sr)
@@ -130,7 +130,7 @@ def get_c1_file():
         file.write("BPM " + str(calculate_bpm()) + '\n')
         file.write("PAGE_SHIFT " + str(choose_between_auto_shift_or_user_shift()) + '\n')
         file.write("PAGE_SIZE " + str(calculate_page_size()) + '\n')
-        for count, item in beat_list:
+        for count, item in onset_list:
             file.write("NOTE\t" + str(count) + '\t' + str(round(item, 6)) + '\t' + str(
                 random_x_generator()) + '\t' + '0.000000' + '\n')
 
@@ -167,5 +167,3 @@ output_text_button.grid(row=2, column=1)
 
 
 root.mainloop()
-
-
