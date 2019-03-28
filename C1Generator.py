@@ -1,4 +1,9 @@
 
+"""
+Created on Thu Mar 21 02:02:42 2019
+
+@author: Sam Tyson Gasper
+"""
 import librosa
 import random
 from tkinter import *
@@ -69,7 +74,6 @@ def determine_holds(item):
         return round(random.uniform(0.0, 0.5), 6)
     else:
         return "0.000000"
-
 
 
 def choose_between_auto_shift_or_user_shift():
@@ -163,29 +167,5 @@ output_text_button.grid(row=2, column=1)
 
 
 root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
